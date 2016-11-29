@@ -1,0 +1,11 @@
+Concept.Selective RFID bird tag reader. A listed tag allow a door to open.
+
+Hardware:
+Arduino UNO
+RFID reader(SeeedStudio) https://www.seeedstudio.com/125Khz-RFID-module---UART-p-171.html
+Adafruit Data Logger
+EZDriver stepper motorboard  ROB-12779
+
+
+Data format is a timestamp, date,time, tag# (no separating characters)
+20161129,84726, 0123456AA 

@@ -3,9 +3,36 @@ Concept.Selective RFID bird tag reader. A listed tag allow a door to open.
 Hardware:
 Arduino UNO
 RFID reader(SeeedStudio) https://www.seeedstudio.com/125Khz-RFID-module---UART-p-171.html
-Adafruit Data Logger
-EZDriver stepper motorboard  ROB-12779
+Adafruit Data Logger    https://www.adafruit.com/product/1141
+EZDriver stepper motorboard  ROB-12779   https://www.sparkfun.com/products/12779
 
 
-Data format is a timestamp, date,time, tag# (no separating characters)
-20161129,84726, 0123456AA 
+
+Data format:
+ is a timestamp, date,time, tag# (no separating characters), T or F
+20161129,84726, 0123456AA, T
+Each read will have it's own line
+We will likely end up using a .CSV file format so that they can easily import to Excel
+
+
+At present, the UNO is running the Data Logger code  ForTheBirds/Write_Timestamp_to_SDcard.ino
+
+
+
+Tasks:
+
+1.Very RFID reder functionality. Use my code, ForTheBirds/Seed_RFID/Mike_s_125Khz_read/Mike_s_125Khz_read.ino
+  The tags should work with the retangular antenna
+
+2. Connect the data logger and RFID board and ensure they do not interfere with each other.
+
+3. Read a tag, save it along with timestamp to the SDcard
+
+4. Read incoming tag
+   Lookup 'accepted' tag list, 
+      If it is in the list fire LED and add 'T' to saved data line
+      If not in the list DO NOT fire LED and add 'F' to data line
+
+In that time I will build an EZdriver motor board to test with.
+
+5. Replace the LED indicator with the motor drive code.

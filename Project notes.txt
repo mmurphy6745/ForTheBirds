@@ -21,7 +21,7 @@ At present, the UNO is running the Data Logger code  ForTheBirds/Write_Timestamp
 
 Tasks:
 
-1.Very RFID reder functionality. Use my code, ForTheBirds/Seed_RFID/Mike_s_125Khz_read/Mike_s_125Khz_read.ino
+1.Very RFID reader functionality. Use my code, ForTheBirds/Seed_RFID/Mike_s_125Khz_read/Mike_s_125Khz_read.ino
   The tags should work with the retangular antenna
 
 2. Connect the data logger and RFID board and ensure they do not interfere with each other.
@@ -36,3 +36,42 @@ Tasks:
 In that time I will build an EZdriver motor board to test with.
 
 5. Replace the LED indicator with the motor drive code.
+
+6. If time allows or for future consideration it would be nice to have a known motor position by either a shaft encoder but could be as simple as an optical interrupt switch.
+We'd use something like this http://www.vinland.com/Opto-Interrupter.html and put it inline with a section of the motor drive system. When the light through the middle of it, it would mean the door is closed.
+This would be useful as a startup routine as well as regular operation.
+
+
+
+
+
+
+
+
+Arduino UNO Pin assignments for ForTheBirds project					
+Pin	Desc				
+Digital			RFID	Ezdriver	DataShield
+0	Rx/D0				
+1	Tx/D1				
+2	D2		I2C	STEP	
+3	D3			DIR	
+4	D4			MS1	
+5	D5			MS2	
+6	D6			ENABLE	
+7	D7				
+8	D8				
+9	D9				
+10	D10				CS
+11	D11	MOSI			MOSI
+12	D12	MSIO			MSIO
+13	D13	CLK			CLK
+Analog					
+A0					
+A1					
+A2					
+A3					
+A4					SDA
+A5					SCL
+					
+5V			Vcc	Vcc	Vcc
+Gnd			Gnd	Gnd	Gnd

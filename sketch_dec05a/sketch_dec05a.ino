@@ -1,15 +1,15 @@
-#include <RTClib.h>
-#include <SD.h>
+
+
 #include <Wire.h>
 #include "RTClib.h"
-
+#include <SD.h>
 
 #include "motor_trigger.h"
 
 typedef  unsigned char uint_8t;
 
 #define DEBUG 1
-#define TRIGGER_MOTOR 1   // Set to 1
+#define TRIGGER_MOTOR 0
 #define SET_TIME 0
 #define BUF_SIZE 16
 

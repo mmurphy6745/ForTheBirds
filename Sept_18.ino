@@ -10,9 +10,14 @@
  
 typedef  unsigned char uint_8t;
  
+// Compile with the debug flag set only for testing purposes
 #define DEBUG 1
 #define TRIGGER_MOTOR 2
+
+// When compiling the code with this flag enabled, every time the Arduino boots,
+// the RTC clock time is set to the time at which the code was compiled.
 #define SET_TIME 0
+
 #define BUF_SIZE 20
  
 #define VALID_TAGS_FILE "TAGS.TXT"
@@ -20,7 +25,13 @@ typedef  unsigned char uint_8t;
  
 // for the data logging shield cs line
 #define SD_CARD_PIN 10
+
+// reducing buffer size makes memory problems less likely to happen
+#if DEBUG > 0
+#define TAGS_BUFFER_SIZE 128
+#else
 #define TAGS_BUFFER_SIZE 256
+#endif
  
 RTC_PCF8523 rtc;
  
@@ -31,7 +42,8 @@ File current_file_handler;
 char accepted_tags[TAGS_BUFFER_SIZE];
 unsigned long time;
  
- 
+
+// Show blinking code on LED light.
 void fatal_error(int dd)
 {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -73,16 +85,61 @@ void setup()
     Serial.println("Couldn't find RTC");
     fatal_error(2);
   }
+  
+  
+  delay(1000);
  
   if (! rtc.initialized()) {
-    Serial.println(F("RTC is NOT running!"));
-    // This line sets the RTC with an explicit date & time, for example to set
-    // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-    #if SET_TIME
-     // following line sets the RTC to the date & time this sketch was compiled
-     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    #endif
+#if DEBUG
+	
+	// Just for convenience, wait a little bit to give user time to see debug output
+	Serial.println(F("Waiting 10 seconds..."));
+	delay(5000);
+	Serial.println(F("Waiting 5 seconds..."));
+	delay(5000);
+	Serial.println(F("RTC is NOT running!"));
+#if DEBUG
+	
+#if SET_TIME
+	// Setting the time will initialize the RTC
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+#else
+	fatal_error(3);
+#endif
+
+	
+#if DEBUG
+	delay(1000);
+	// test if RTC has been initialized
+	if (rtc.initialized()) {
+		Serial.println(F("RTC is now initialized."));
+	}
+	else {
+		Serial.println(F("RTC did not initialize after time was set."));
+	}
+	
+	delay(1000);
+	
+	// Display current time
+	DateTime now = rtc.now();
+
+	Serial.print(now.year(), DEC);
+	Serial.print('/');
+	Serial.print(now.month(), DEC);
+	Serial.print('/');
+	Serial.print(now.day(), DEC);
+	Serial.print(" (");
+	Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+	Serial.print(") ");
+	Serial.print(now.hour(), DEC);
+	Serial.print(':');
+	Serial.print(now.minute(), DEC);
+	Serial.print(':');
+	Serial.print(now.second(), DEC);
+	Serial.println();
+#endif
+    
   }
  
 #if TRIGGER_MOTOR
